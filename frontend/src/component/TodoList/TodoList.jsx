@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { loadTasksFromStorage, saveTasksToStorage } from '../../Utility/LocalStorage';
 import { useSelector } from 'react-redux';
 
@@ -18,7 +18,7 @@ function TodoList() {
         weatherC=weather.days[0].description;
       }
       const date = weather.days[0].datetime;
-      
+
       const updatedTasks = [...tasks, { text: newTask, completed: false, priority, weatherType, weatherCondition: weatherC, date }];
       
       setTasks(updatedTasks);
@@ -55,7 +55,7 @@ function TodoList() {
   
     return (
         <>
-      <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-lg">
+      {/* <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Todo List</h1>
         <div className="flex mb-4">
           <input
@@ -65,30 +65,33 @@ function TodoList() {
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="Add a new task..."
           />
-          <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            className="ml-2 p-2 w-28 border rounded"
-          >
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
+          <br/>
+          <div className='flex flex-row sm:flex-row gap-2 mt-2'>
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              className="ml-2 p-2 w-28 border rounded"
+            >
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
 
-          <select
-            value={weather}
-            onChange={(e) => setWeatherType(e.target.value)}
-            className="ml-2 p-2 w-28 border rounded"
-          >
-            <option value="Indoor">Indoor</option>
-            <option value="Outdoor">Outdoor</option>
-          </select>
-          <button
-            onClick={addTask}
-            className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Add
-          </button>
+            <select
+              value={weather}
+              onChange={(e) => setWeatherType(e.target.value)}
+              className="ml-2 p-2 w-28 border rounded"
+            >
+              <option value="Indoor">Indoor</option>
+              <option value="Outdoor">Outdoor</option>
+            </select>
+            <button
+              onClick={addTask}
+              className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Add
+            </button>
+          </div>
         </div>
         <ul>
           {sortedTasks.map((task, index) => (
@@ -124,7 +127,83 @@ function TodoList() {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
+      <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-lg">
+  <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+  <div className="flex flex-col sm:flex-row mb-4">
+    <input
+      type="text"
+      className="flex-1 p-2 border rounded mb-2 sm:mb-0 sm:mr-2"
+      value={newTask}
+      onChange={(e) => setNewTask(e.target.value)}
+      placeholder="Add a new task..."
+    />
+    <div className="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0">
+      <select
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className="p-2 w-full sm:w-28 border rounded"
+      >
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+
+      <select
+        value={weather}
+        onChange={(e) => setWeatherType(e.target.value)}
+        className="p-2 w-full sm:w-28 border rounded"
+      >
+        <option value="Indoor">Indoor</option>
+        <option value="Outdoor">Outdoor</option>
+      </select>
+      <button
+        onClick={addTask}
+        className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <ul>
+    {sortedTasks.map((task, index) => (
+      <li
+        key={index}
+        className={`flex justify-between items-center mb-2 ${
+          task.priority === 'High'
+            ? 'bg-red-100'
+            : task.priority === 'Medium'
+            ? 'bg-yellow-100'
+            : 'bg-green-100'
+        } p-2 rounded`}
+      >
+        <span
+          className={`flex-1 ${
+            task.completed ? 'line-through text-gray-500' : ''
+          }`}
+          onClick={() => toggleTaskCompletion(index)}
+        >
+          {task.text} <span className="font-bold">({task.priority})</span>
+        </span>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          onClick={() => openTaskDetails(task)}
+          className="ml-4 p-1 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => deleteTask(index)}
+          className="ml-4 p-1 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
+
 
 
         {/* Edit Course */}

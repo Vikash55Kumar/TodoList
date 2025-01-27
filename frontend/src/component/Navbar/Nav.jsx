@@ -70,7 +70,7 @@ export default function Nav() {
             </Button>
           </Link>
         </NavbarItem>
-        <NavbarItem className="hidden sm:block md:hidden lg:block">
+        <NavbarItem className="lg:block">
           <Link href="/" color="foreground">
             <Button color="danger" variant="flat">
                 Logout
